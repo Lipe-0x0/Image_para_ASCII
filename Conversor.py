@@ -8,7 +8,7 @@ ascii = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^`'
 # Carregando Imagem
 image = img.imread("path", format = "jpg")
 
-# Deixando preto e branco
-array = 0.299*image[:,:,0] + 0.587*image[:,:,1] + 0.144*image[:,:,2]
+# Deixando preto e branco (Fórmula ITU-R BT.709)
+array = 0.2125*image[:,:,0] + 0.7153*image[:,:,1] + 0.0721*image[:,:,2]
 
 
