@@ -32,7 +32,6 @@ def img_ascii(path, escala_redimensionamento = 0.5):
     array_redi = cv2.resize(array, None, fx = escala_redimensionamento, fy = escala_redimensionamento,  interpolation = cv2.INTER_AREA)
 
     # Se a matriz for RGB então
-    print(np.shape(array_redi))
     if np.shape(array_redi)[len(np.shape(array_redi))-1] == 3:
         # Deixando preto e branco (Fórmula ITU-R BT.601)
         array_redi = 0.299*array_redi[:,:,0] + 0.587*array_redi[:,:,1] + 0.114*array_redi[:,:,2]
