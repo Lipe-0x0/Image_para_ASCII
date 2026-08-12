@@ -34,15 +34,15 @@ def img_ascii(path, escala_redimensionamento = 0.5):
     # Deixando preto e branco (Fórmula ITU-R BT.601)
     array_redi = 0.299*array_redi[:,:,0] + 0.587*array_redi[:,:,1] + 0.114*array_redi[:,:,2]
 
-    # Pondo caracteres numa cópia da matriz
-    matriz_ascii = np.copy(array_redi)
-    
-    m, n = np.shape(matriz_ascii)
+    # Pondo caracteres numa cópia da matriz  
+    matriz_ascii = np.array(array_redi, copy = True, dtype = str) 
+
+    m, n = np.shape(array_redi)
 
     for i in range(m):
         for j in range(n):
             # Normalizando o valor do pixel para ficar entre 0-1
-            pixel_normal = matriz_ascii[i,j]/255
+            pixel_normal = array_redi[i,j]/255
 
             # Índice da string ascii
             ind = int(pixel_normal*len(ascii))
@@ -55,10 +55,22 @@ def img_ascii(path, escala_redimensionamento = 0.5):
             matriz_ascii[i,j] = ascii[ind]
 
 
-    print(matriz_ascii)
+    # Passando matriz ascii para arquivo
+    nome = path.split(".")[0] + ".txt"
+
+    with open(nome, "w") as arquivo:
+        for linha in matriz_ascii:
+            for elemento in linha:
+
+                arquivo.write(str(elemento)+'') # Adiciona cada elemento de uma linha
+
+            arquivo.write('\n') # Quebra linha
+
 
     return None
 
-path = str(input("Path: ")
+path = str(input("Path: "))
 
-img_ascii(path)
+escala = float(input("Escala: " ))
+
+img_ascii(path, escala_redimensionamento = escala)
