@@ -59,6 +59,6 @@ def img_ascii(path, escala_redimensionamento = 0.5):
 
     return None
 
-path = "/home/fan/Imagens/ASCIIART/action.jpeg"
+path = str(input("Path: ")
 
 img_ascii(path)
