@@ -34,8 +34,31 @@ def img_ascii(path, escala_redimensionamento = 0.5):
     # Deixando preto e branco (Fórmula ITU-R BT.601)
     array_redi = 0.299*array_redi[:,:,0] + 0.587*array_redi[:,:,1] + 0.114*array_redi[:,:,2]
 
-    print(np.max(array_redi))
-    print(np.min(array_redi))
+    # Pondo caracteres numa cópia da matriz
+    matriz_ascii = np.copy(array_redi)
+    
+    m, n = np.shape(matriz_ascii)
+
+    for i in range(m):
+        for j in range(n):
+            # Normalizando o valor do pixel para ficar entre 0-1
+            pixel_normal = matriz_ascii[i,j]/255
+
+            # Índice da string ascii
+            ind = int(pixel_normal*len(ascii))
+
+            # Se o indíce da string for 67 (limite da string) fazer ele voltar 1 para ficar 66
+            if ind == len(ascii):
+                ind = len(ascii) - 1
+
+            # Substituindo pixel por caractere
+            matriz_ascii[i,j] = ascii[ind]
+
+
+    print(matriz_ascii)
 
     return None
 
+path = "/home/fan/Imagens/ASCIIART/action.jpeg"
+
+img_ascii(path)
