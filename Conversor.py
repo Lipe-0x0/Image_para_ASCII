@@ -2,13 +2,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as img
 import cv2
+import pillow as pil
 
 
-def img_ascii(path, escala_redimensionamento = 0.5):
+def img_ascii(path, size = None,  escala_redimensionamento = 1):
     '''
     path = Caminho do arquivo
-    escala_redimensionamento = Valor que definirá o tamanho em que a imagem será redimensionada inde de 0-1,
-    sendo 0.5 padrão
+    size = Variável em forma de tupla se referindo ao comprimento(x) e altura(y) da imagem
+    escala_redimensionamento = Valor que definirá o tamanho em que a imagem será redimensionada indo de 0-1,
+    sendo 1 padrão
 
     Processos Aplicados: 
     1 - Reamostragem por Interpolação (Interpolação por Área)
@@ -29,7 +31,7 @@ def img_ascii(path, escala_redimensionamento = 0.5):
     array = img.imread(path, format = formato_img)
 
     # Opencv(cv2) com método de interpolação por área
-    array_redi = cv2.resize(array, None, fx = escala_redimensionamento, fy = escala_redimensionamento,  interpolation = cv2.INTER_AREA)
+    array_redi = cv2.resize(array, size, fx = escala_redimensionamento, fy = escala_redimensionamento, interpolation = cv2.INTER_AREA)
 
     # Se a matriz for RGB então
     if np.shape(array_redi)[len(np.shape(array_redi))-1] == 3:
@@ -57,8 +59,9 @@ def img_ascii(path, escala_redimensionamento = 0.5):
             matriz_ascii[i,j] = ascii[ind]
 
 
-    # Passando matriz ascii para arquivo
-    nome = path.split(".")[0] + ".txt"
+    # Gerando arquivo txt onde receberá valores de matriz ascii
+
+    nome = path.split(".")[0] + ".txt" # Pegando nome da imagem e adicionando extensão txt
 
     with open(nome, "w") as arquivo:
         for linha in matriz_ascii:
@@ -67,6 +70,8 @@ def img_ascii(path, escala_redimensionamento = 0.5):
                 arquivo.write(str(elemento)+'') # Adiciona cada elemento de uma linha
 
             arquivo.write('\n') # Quebra linha
+
+    # Gerando arquivo bitmap a partir do arquivo de texto
 
 
     return None
