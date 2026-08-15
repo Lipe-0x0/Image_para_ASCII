@@ -51,10 +51,10 @@ def gera_bitmap(texto, tam_x, tam_y, cor = "black", font_size = 5):
         # Caso ele não aceite a fonte do sistema
         font = ImageFont.load_default()
 
-    # Pegando altura e largura do pixel da letra pois preciso deles para encontrar o tamanho da superfície desenhada
-    left, top, right, bottom  = font.getbbox(texto[0,0])
+    # Pegando altura e largura da primeira linha pois preciso deles para encontrar o tamanho da superfície desenhada
+    left, top, right, bottom  = font.getbbox("".join(texto[0,:]))
     altura = bottom - top
-    largura = right - left
+    largura = (right - left) // tam_y
 
     pos_y = altura # Posição da linha do eixo y na imagem
 
@@ -112,6 +112,9 @@ def img_ascii(path, size = None,  escala_redimensionamento = None):
     gera_bitmap(matriz_ascii, tam_x = m, tam_y = n)
 
     return None
+
+
+
 
 path = str(input("Path: "))
 
