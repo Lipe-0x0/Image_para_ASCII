@@ -30,7 +30,7 @@ def gera_txt(matriz, m, n):
 
     # Gerando arquivo txt onde receberá valores de matriz_ascii
 
-    nome = path.split(".")[0] + ".txt" # Pegando nome da imagem e adicionando extensão txt
+    vnome = path.split(".")[0] + ".txt" # Pegando nome da imagem e adicionando extensão txt
 
     with open(nome, "w") as arquivo:
         for linha in matriz_ascii:
@@ -69,7 +69,18 @@ def gera_bitmap(texto, tam_x, tam_y, cor = "black", font_size = 5):
 
         pos_y+=altura # Adicionando para a próxima linha aparecer abaixo da outra
     
+
     image.save("output.jpeg") # Salva imagem
+
+    return None
+
+
+def redimen_bitmap(caminho_save, m, n):
+    imagem = img.imread(caminho_file, format = "jpeg")
+
+    imagem_redi = cv2.resize(imagem, (m, n) , interpolation = cv2.INTER_AREA)
+
+    cv2.imwrite(caminho_save, imagem_redi)
 
     return None
 
@@ -111,9 +122,12 @@ def img_ascii(path, size = None,  escala_redimensionamento = None):
     # Gerando arquivo png ASCII
     gera_bitmap(matriz_ascii, tam_x = m, tam_y = n)
 
+    # Redimensionando Imagem bitmap caso ela esteja de tamanho diferente
+    redimen_bitmap(, m, n)
+
     return None
 
-
+    
 
 
 path = str(input("Path: "))
