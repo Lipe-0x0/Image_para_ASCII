@@ -5,7 +5,7 @@ import cv2
 from PIL import Image, ImageDraw, ImageFont
 
 
-def gera_txt(matriz, m, n):
+def gera_txt(matriz, m, n, nome_txt):
     
     # Caracteres ASCII darker-lighter
     ascii = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^`'
@@ -29,10 +29,8 @@ def gera_txt(matriz, m, n):
             matriz_ascii[i,j] = ascii[ind]
 
     # Gerando arquivo txt onde receberá valores de matriz_ascii
-
-    vnome = path.split(".")[0] + ".txt" # Pegando nome da imagem e adicionando extensão txt
-
-    with open(nome, "w") as arquivo:
+   
+    with open(nome_txt, "w") as arquivo:
         for linha in matriz_ascii:
             for elemento in linha:
 
@@ -76,7 +74,7 @@ def gera_bitmap(texto, tam_x, tam_y, cor = "black", font_size = 5):
 
 
 def redimen_bitmap(caminho_save, m, n):
-    imagem = img.imread(caminho_file, format = "jpeg")
+    imagem = img.imread("output.jpeg", format = "jpeg")
 
     imagem_redi = cv2.resize(imagem, (m, n) , interpolation = cv2.INTER_AREA)
 
@@ -116,14 +114,18 @@ def img_ascii(path, size = None,  escala_redimensionamento = None):
 
     m, n = np.shape(array_redi) 
 
+    nome_txt = path.split(".")[0] + ".txt" # Pegando caminho da imagem para salvar txt no mesmo local
+
+    nome_imgbit = path.split(".")[0] + ".jpeg" # Pegando caminho da imagem para salvar bitmap redimensionado no mesmo local 
+
     # Gerando arquivo txt
-    matriz_ascii = gera_txt(array_redi, m, n)
+    matriz_ascii = gera_txt(array_redi, m, n, nome_txt)
 
     # Gerando arquivo png ASCII
     gera_bitmap(matriz_ascii, tam_x = m, tam_y = n)
 
     # Redimensionando Imagem bitmap caso ela esteja de tamanho diferente
-    redimen_bitmap(, m, n)
+    redimen_bitmap(nome_imgbit, m, n)
 
     return None
 
