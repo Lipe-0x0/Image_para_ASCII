@@ -37,7 +37,7 @@ def gera_txt(matriz, m, n, nome_txt):
     return matriz_ascii
 
 
-def gera_bitmap(texto, largura, altura, caminho_save,  cor_fundo = "black", cor_letra = "white", path_font = "goonado", font_size = 5):
+def gera_bitmap(texto, largura, altura, caminho_save,  cor_fundo, cor_letra, path_font = "goonado", font_size = 5):
 
     try:
         font = ImageFont.truetype(path_font, size = font_size) # Fonte escolhida pelo usuário
@@ -72,7 +72,7 @@ def gera_bitmap(texto, largura, altura, caminho_save,  cor_fundo = "black", cor_
 
 
 
-def img_ascii(path, path_font, size = None):
+def img_ascii(path, path_font, size = None, background_color = "black", letter_color = "white"):
     '''
     path = Caminho do arquivo
     size = Variável em forma de tupla se referindo ao comprimento(x) e altura(y) da imagem
@@ -89,6 +89,10 @@ def img_ascii(path, path_font, size = None):
     # Carregando Imagem como matriz
     array = np.array(Image.open(path))
 
+    # Verificando se matriz possui shape = [x,y,4](propriedade alpha)
+    if np.shape(array)[len(np.shape(array))-1] == 4:
+        array = array[:,:,:3]
+
     # Se a matriz for RGB então deixar em preto e branco
     if np.shape(array)[len(np.shape(array))-1] == 3:
         # Deixando preto e branco (Fórmula ITU-R BT.601)
@@ -102,7 +106,7 @@ def img_ascii(path, path_font, size = None):
     matriz_ascii = gera_txt(array, size[1], size[0], nome_txt)
 
     # Gerando imagem ASCII
-    gera_bitmap(matriz_ascii, largura = size[0], altura = size[1], path_font = path_font, caminho_save = nome_imgbit)
+    gera_bitmap(matriz_ascii, largura = size[0], altura = size[1], path_font = path_font, caminho_save = nome_imgbit, cor_fundo = background_color, cor_letra = letter_color)
 
 
     return None
