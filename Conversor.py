@@ -1,9 +1,17 @@
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
+import os
 
 
 def gera_txt(matriz, m, n, nome_txt):
-    
+    """
+    matriz = Matriz MxN com elementos sendo caracteres ASCII
+    m = Altura da matriz(linhas)
+    n = Largura da matriz(colunas)
+    nome_txt = Caminho de origem da imagem mesclado com o nome do arquivo e por fim, a tipagem TXT
+    """
+
+
     # Caracteres ASCII darker-lighter
     ascii = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^`'
     
@@ -37,7 +45,17 @@ def gera_txt(matriz, m, n, nome_txt):
     return matriz_ascii
 
 
-def gera_bitmap(texto, largura, altura, caminho_save,  cor_fundo, cor_letra, path_font = "goonado", font_size = 5):
+def gera_bitmap(texto, largura, altura, caminho_save,  cor_fundo, cor_letra, path_font = None, font_size = 5):
+    """
+    texto = Matriz de caracteres ASCII
+    largura = Quantidade de colunas da matriz ASCII
+    altura = Quantidade de linhas da matriz ASCII
+    caminho_save = Caminho onde ficará salvo a imagem ASCII, normalmente no mesmo local da imagem original
+    cor_fundo = Cor do fundo da imagem (Superfície desenhada)
+    cor_letra = Cor da letra
+    path_font = Caminho onde a fonte da letra está localizada
+    font_size = Tamanho da letra
+    """
 
     try:
         font = ImageFont.truetype(path_font, size = font_size) # Fonte escolhida pelo usuário
