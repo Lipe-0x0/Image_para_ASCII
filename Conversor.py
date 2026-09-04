@@ -3,12 +3,30 @@ from PIL import Image, ImageDraw, ImageFont
 import os
 
 
-def gera_txt(matriz, m, n, nome_txt):
+def busca_caminho(nome_arquivo):
+    diretorios = ["~/Imagens","~/Downloads","~/Documentos"]
+    
+    cont = 0 # Contador, se for == 3 então não encontrou arquivo em nenhum dos 3 diretórios
+
+    for dire in diretorios: # Para cada diretório...
+        for caminho, subpastas, arqs in os.walk(os.path.expanduser(dire)): # Procurar recursivamente nas subpastas de tais
+
+            if nome_arquivo in arqs: # Se arquivo estiver na lista de todos os arquivos daquele diretório
+                return os.path.join(caminho, nome_arquivo) # Retornar caminho completo
+            else:
+                cont+=1
+
+    if cont == 3:
+        return None
+
+
+
+def gera_txt(matriz, m, n, caminho_save):
     """
     matriz = Matriz MxN com elementos sendo caracteres ASCII
     m = Altura da matriz(linhas)
     n = Largura da matriz(colunas)
-    nome_txt = Caminho de origem da imagem mesclado com o nome do arquivo e por fim, a tipagem TXT
+    caminho_save = Caminho de origem da imagem mesclado com o nome do arquivo e por fim, a tipagem TXT
     """
 
 
@@ -34,7 +52,7 @@ def gera_txt(matriz, m, n, nome_txt):
             matriz_ascii[i,j] = ascii[ind]
 
     # Gerando arquivo txt onde receberá valores de matriz_ascii
-    with open(nome_txt, "w") as arquivo:
+    with open(caminho_save, "w") as arquivo:
         for linha in matriz_ascii:
             for elemento in linha:
 
@@ -90,11 +108,11 @@ def gera_bitmap(texto, largura, altura, caminho_save,  cor_fundo, cor_letra, pat
 
 
 
-def img_ascii(path, path_font, size = None, background_color = "black", letter_color = "white"):
+def img_ascii(name_file, name_font, size = None, background_color = "black", letter_color = "white"):
     '''
-    path = Caminho do arquivo
+    name_file = Nome do arquivo(diferenciando maiúscula de minúscula)
     size = Variável em forma de tupla se referindo ao comprimento(x) e altura(y) da imagem
-    path_font = Caminho de fonte personalizada, caso não possua, o padrão será arial
+    name_font = Nome da fonte personalizada, caso não possua, o padrão será arial
 
     Processos Aplicados: 
     1 - Fórmula ITU-R BT.601 para transformar em preto e branco
@@ -103,9 +121,14 @@ def img_ascii(path, path_font, size = None, background_color = "black", letter_c
     Valor de pixel 0 = Preto (Utiliza caracteres robustos)
     Valor de pixel 255 = Branco (Utiliza caracteres esparsos)
     '''
-
+    # Retorna caminho da imagem
+    caminho_imagem = busca_caminho(name_file)
+    
+    # Retorna caminho da fonte
+    caminho_fonte = busca_caminho(name_font)
+    
     # Carregando Imagem como matriz
-    array = np.array(Image.open(path))
+    array = np.array(Image.open(caminho_imagem))
 
     # Verificando se matriz possui shape = [x,y,4](propriedade alpha)
     if np.shape(array)[len(np.shape(array))-1] == 4:
@@ -116,15 +139,15 @@ def img_ascii(path, path_font, size = None, background_color = "black", letter_c
         # Deixando preto e branco (Fórmula ITU-R BT.601)
         array = 0.299*array[:,:,0] + 0.587*array[:,:,1] + 0.114*array[:,:,2]
 
-    nome_txt = path.split(".")[0] + ".txt" # Pegando caminho da imagem para salvar txt na pasta da original
+    caminho_arq_txt = caminho_imagem.split(".")[0] + ".txt" # Pegando caminho da imagem para salvar txt na pasta da original
 
-    nome_imgbit = path.split(".")[0] + "ASCII" + ".jpeg" # Pegando caminho da imagem para salvar bitmap redimensionado na pasta da original 
+    caminho_img_ascii = caminho_imagem.split(".")[0] + "ASCII" + ".jpeg" # Pegando caminho da imagem para salvar bitmap redimensionado na pasta da original 
 
     # Gerando arquivo txt
-    matriz_ascii = gera_txt(array, size[1], size[0], nome_txt)
+    matriz_ascii = gera_txt(array, size[1], size[0], caminho_arq_txt)
 
     # Gerando imagem ASCII
-    gera_bitmap(matriz_ascii, largura = size[0], altura = size[1], path_font = path_font, caminho_save = nome_imgbit, cor_fundo = background_color, cor_letra = letter_color)
+    gera_bitmap(matriz_ascii, largura = size[0], altura = size[1], path_font = caminho_fonte, caminho_save = caminho_img_ascii, cor_fundo = background_color, cor_letra = letter_color)
 
 
     return None
