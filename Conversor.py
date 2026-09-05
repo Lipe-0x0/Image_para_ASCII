@@ -1,25 +1,32 @@
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 import os
+from termcolor import colored
 
+# ------------------------ Funções Complementares -----------------------------
 
 def busca_caminho(nome_arquivo):
     diretorios = ["~/Imagens","~/Downloads","~/Documentos"]
-    
-    cont = 0 # Contador, se for == 3 então não encontrou arquivo em nenhum dos 3 diretórios
 
     for dire in diretorios: # Para cada diretório...
         for caminho, subpastas, arqs in os.walk(os.path.expanduser(dire)): # Procurar recursivamente nas subpastas de tais
 
             if nome_arquivo in arqs: # Se arquivo estiver na lista de todos os arquivos daquele diretório
                 return os.path.join(caminho, nome_arquivo) # Retornar caminho completo
-            else:
-                cont+=1
 
-    if cont == 3:
-        return None
+    raise FileNotFoundError
 
 
+def busca_fonte(nome_arquivo):
+    for caminho, subpastas, arqs in os.walk("/usr/share/fonts"):
+        if nome_arquivo in arqs:
+            return os.path.join(caminho, nome_arquivo)
+
+    raise FileNotFoundError 
+
+
+
+# ------------------------ Funções de Geração de Arquivos --------------------------
 
 def gera_txt(matriz, m, n, caminho_save):
     """
@@ -31,7 +38,7 @@ def gera_txt(matriz, m, n, caminho_save):
 
 
     # Caracteres ASCII darker-lighter
-    ascii = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~<>i!lI;:,"^`'
+    ascii = '$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,"^`'
     
     # Criando cópia da matriz para substituir valores pelos caracteres  
     matriz_ascii = np.array(matriz, copy = True, dtype = str) 
@@ -107,6 +114,7 @@ def gera_bitmap(texto, largura, altura, caminho_save,  cor_fundo, cor_letra, pat
     return None
 
 
+# ------------------------------- Função Principal ----------------------------
 
 def img_ascii(name_file, name_font, size = None, background_color = "black", letter_color = "white"):
     '''
@@ -121,11 +129,20 @@ def img_ascii(name_file, name_font, size = None, background_color = "black", let
     Valor de pixel 0 = Preto (Utiliza caracteres robustos)
     Valor de pixel 255 = Branco (Utiliza caracteres esparsos)
     '''
-    # Retorna caminho da imagem
-    caminho_imagem = busca_caminho(name_file)
+
+    try:
+        # Retorna caminho da imagem
+        caminho_imagem = busca_caminho(name_file)
+    except FileNotFoundError:
+        print(colored("Arquivo não encontrado nos diretórios (Downloads, Documentos, Imagens)", "red"))
+        return
     
-    # Retorna caminho da fonte
-    caminho_fonte = busca_caminho(name_font)
+    try:
+        # Retorna caminho da fonte
+        caminho_fonte = busca_fonte(name_font)
+    except FileNotFoundError:
+        print(colored("Fonte não encontrada em /usr/share/fonts", "red"))
+        return
     
     # Carregando Imagem como matriz
     array = np.array(Image.open(caminho_imagem))
