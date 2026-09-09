@@ -21,9 +21,9 @@ Ele foi dividido em 3 partes, sendo elas:
 python -c "import Conversor; Conversor.img_ascii('Nome do arquivo', 'Nome da fonte', size = (largura, altura))"
 ```
 
-![Imagem Original](/imgs/kurono.jpeg)
+![Imagem Original](imgs/kurono.jpeg)
 
-![Imagem Padrão(preto e branco)](/imgs/kuronoASCII.jpeg)
+![Imagem Padrão(preto e branco)](imgs/kuronoASCII.jpeg)
 
 ### Escolha de Cores
 
@@ -31,6 +31,6 @@ python -c "import Conversor; Conversor.img_ascii('Nome do arquivo', 'Nome da fon
 python -c "import Conversor; Conversor.img_ascii('nome do arquivo', 'nome da fonte', size = (largura, altura), background_color = 'black', letter_color = "purple")"
 ```
 
-![Imagem Original](/imgs/Who%20the%20hell%20do%20you%20think%20i%20am?.png)
+![Imagem Original](imgs/Who%20the%20hell%20do%20you%20think%20i%20am%3F.png)
 
-![Imagem Colorida](/imgs/Who%20the%20hell%20do%20you%20think%20i%20am?ASCII.jpeg)
+![Imagem Colorida](imgs/Who%20the%20hell%20do%20you%20think%20i%20am%3FASCII.jpeg)
