@@ -31,6 +31,6 @@ python -c "import Conversor; Conversor.img_ascii('Nome do arquivo', 'Nome da fon
 python -c "import Conversor; Conversor.img_ascii('nome do arquivo', 'nome da fonte', size = (largura, altura), background_color = 'black', letter_color = "purple")"
 ```
 
-![Imagem Original](/imgs/Who the do you think i am?.png)
+![Imagem Original](/imgs/'Who the do you think i am?.png')
 
-![Imagem Colorida](/imgs/Who the hell do you think i am?ASCII.jpeg)
+![Imagem Colorida](/imgs/'Who the hell do you think i am?ASCII.jpeg')
