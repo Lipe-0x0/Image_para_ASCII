@@ -58,11 +58,7 @@ def gera_bitmap(texto, largura, altura, caminho_save,  cor_fundo, cor_letra, pat
     font_size = Tamanho da letra
     """
 
-    try:
-        font = ImageFont.truetype(path_font, size = font_size) # Fonte escolhida pelo usuário
-    except:
-        # Caso ele não aceite a fonte do sistema
-        font = ImageFont.truetype("arial.ttf", size = font_size) # Fonte arial padrão
+    font = ImageFont.truetype(path_font, size = font_size) # Fonte escolhida pelo usuário
 
     # Pegando altura e largura da primeira linha pois preciso deles para encontrar o tamanho da superfície desenhada
     left, top, right, bottom  = font.getbbox("".join(texto[0,:]))
