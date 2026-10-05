@@ -28,7 +28,7 @@ python -c "import Conversor; Conversor.img_ascii('Nome do arquivo', 'Nome da fon
 ### Escolha de Cores
 
 ```
-python -c "import Conversor; Conversor.img_ascii('nome do arquivo', 'nome da fonte', size = (largura, altura), background_color = 'black', letter_color = "purple")"
+python -c "import Conversor; Conversor.img_ascii('nome do arquivo', 'nome da fonte', size = (largura, altura), background_color = 'black', letter_color = "#8b59ff")"
 ```
 
 ![Imagem Original](imgs/Who%20the%20hell%20do%20you%20think%20i%20am%3F.png)
